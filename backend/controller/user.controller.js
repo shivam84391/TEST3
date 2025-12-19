@@ -115,11 +115,12 @@ export const loginUser = async (req, res) => {
 
     // 🍪 Store token in cookie
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-    });
+  httpOnly: true,
+  secure: true,        // 🔥 Render HTTPS ke liye MUST
+  sameSite: "none",    // 🔥 Cross-domain ke liye MUST
+  maxAge: 24 * 60 * 60 * 1000,
+});
+
 
     return res.status(200).json({
       success: true,
