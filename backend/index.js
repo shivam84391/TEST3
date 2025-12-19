@@ -11,7 +11,6 @@ import admin from "./router/admin.routes.js";
 // import prompt from "./router/prompt.routes.js";
 
 dotenv.config();
-
 const app = express();
 
 // Ensure database connection is established
@@ -20,7 +19,7 @@ const app = express();
 //CORS setup
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend (Vite)
+     origin: process.env.CLIENT_URL,
     credentials: true,
      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
