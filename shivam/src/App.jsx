@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-
+import { Navigate } from "react-router-dom";
 import UserLogin from "./pages/UserLogin";
 import UserRegister from "./pages/Useregister";
 import UserFeedback from "./pages/UserFeedback";
@@ -16,6 +16,7 @@ const App = () => {
   return (
     <Routes>
       {/* 🌐 Public routes */}
+       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<UserLogin />} />
       <Route path="/register" element={<UserRegister />} />
 
