@@ -320,55 +320,64 @@ export default AdminDashboard;
 
 
 /* ===================== STYLES ===================== */
+/* ===================== ADVANCED FAANG STYLE ===================== */
+
 const UserRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px;
-  margin-bottom: 10px;
-  background: rgba(15, 23, 42, 0.6);
-  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  background: linear-gradient(
+    120deg,
+    rgba(15, 23, 42, 0.75),
+    rgba(30, 41, 59, 0.55)
+  );
+  border-radius: 16px;
   border: 1px solid rgba(99,102,241,0.35);
   color: #e0e7ff;
-`;
-const VerifyBtn = styled.button`
-  padding: 8px 14px;
-  background: linear-gradient(90deg, #22c55e, #16a34a);
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.25s ease;
+  backdrop-filter: blur(18px);
+  transition: all 0.35s cubic-bezier(.4,0,.2,1);
+  animation: slideFade 0.45s ease;
 
   &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.6);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 18px 40px rgba(99,102,241,0.25);
+  }
+
+  @keyframes slideFade {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `;
 
+const VerifyBtn = styled.button`
+  padding: 9px 16px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
 
-const FeedbackCard = styled.div`
-  padding: 14px;
-  margin-bottom: 14px;
-  background: rgba(15, 23, 42, 0.6);
-  border-radius: 14px;
-  border: 1px solid rgba(99,102,241,0.35);
-  color: #e0e7ff;
-
-  p {
-    margin: 6px 0;
-    font-size: 14px;
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 22px rgba(34,197,94,0.65);
   }
 
-  small {
-    opacity: 0.6;
-    font-size: 12px;
+  &:active {
+    transform: scale(0.96);
   }
 `;
-
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -379,14 +388,20 @@ const Wrapper = styled.div`
 
 const Glow = styled.div`
   position: absolute;
-  width: 600px;
-  height: 600px;
-  background: #6366f1;
-  opacity: 0.18;
-  filter: blur(200px);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, #6366f1, transparent 70%);
+  opacity: 0.22;
+  filter: blur(220px);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  animation: pulseGlow 6s ease-in-out infinite;
+
+  @keyframes pulseGlow {
+    0%,100% { opacity: 0.18; }
+    50% { opacity: 0.32; }
+  }
 `;
 
 const Layout = styled.div`
@@ -397,38 +412,50 @@ const Layout = styled.div`
 `;
 
 const Sidebar = styled.div`
-  width: 270px;
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(22px);
+  width: 280px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(26px);
   border-right: 1px solid rgba(99,102,241,0.35);
-  padding: 1.8rem;
+  padding: 2rem 1.8rem;
   display: flex;
   flex-direction: column;
+  animation: slideIn 0.5s ease;
+
+  @keyframes slideIn {
+    from { transform: translateX(-40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
 `;
 
 const Logo = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
+  animation: fadeDown 0.6s ease;
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 `;
 
 const NavBtn = styled.button`
   width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
-  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: 16px;
   border: 1px solid rgba(99,102,241,0.35);
   background: ${({ active }) =>
     active
       ? "linear-gradient(90deg,#6366f1,#818cf8)"
       : "rgba(15,23,42,0.4)"};
   color: ${({ active }) => (active ? "#fff" : "#c7d2fe")};
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.35s cubic-bezier(.4,0,.2,1);
 
   &:hover {
-    transform: translateX(6px);
+    transform: translateX(10px) scale(1.02);
     background: linear-gradient(90deg,#6366f1,#818cf8);
     color: #fff;
   }
@@ -437,72 +464,87 @@ const NavBtn = styled.button`
 const LogoutBtn = styled.button`
   margin-top: auto;
   width: 100%;
-  padding: 14px;
+  padding: 15px;
   background: linear-gradient(90deg,#b91c1c,#ef4444);
   border: none;
-  border-radius: 14px;
+  border-radius: 16px;
   color: white;
-  font-weight: 800;
+  font-weight: 900;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.35s ease;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 0 28px rgba(239,68,68,0.6);
   }
 `;
 
 const Content = styled.div`
   flex: 1;
-  padding: 3rem;
+  padding: 3.2rem;
+  animation: fadeIn 0.6s ease;
 `;
 
 const Card = styled.div`
-  max-width: 900px;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(22px);
-  border-radius: 24px;
+  max-width: 920px;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(28px);
+  border-radius: 28px;
   border: 1px solid rgba(99,102,241,0.35);
-  padding: 2.5rem;
-  box-shadow: 0 30px 70px rgba(0,0,0,0.45);
-  animation: fadeIn 0.4s ease;
+  padding: 2.8rem;
+  box-shadow: 0 40px 90px rgba(0,0,0,0.55);
+  animation: rise 0.45s ease;
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 `;
 
 const CardTitle = styled.h3`
-  font-size: 22px;
-  color: #e0e7ff;
-  margin-bottom: 1.6rem;
+  font-size: 24px;
+  font-weight: 900;
+  color: #eef2ff;
+  margin-bottom: 2rem;
 `;
 
 const Input = styled.input`
   width: 100%;
-  padding: 14px;
-  background: rgba(15,23,42,0.6);
-  border: 1px solid #6366f1;
+  padding: 15px;
+  background: rgba(15,23,42,0.7);
+  border: 1px solid rgba(99,102,241,0.5);
   border-radius: 14px;
   color: white;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.35);
+  }
 `;
 
 const PrimaryButton = styled.button`
   width: 100%;
   background: linear-gradient(90deg,#6366f1,#818cf8);
-  padding: 14px;
+  padding: 15px;
   border: none;
-  border-radius: 14px;
-  font-weight: 800;
+  border-radius: 16px;
+  font-weight: 900;
   cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 28px rgba(99,102,241,0.65);
+  }
 `;
 
 const TableWrapper = styled.div`
-  max-height: 380px;
+  max-height: 400px;
   overflow-y: auto;
-  border-radius: 14px;
-  border: 1px solid #6366f1;
+  border-radius: 18px;
+  border: 1px solid rgba(99,102,241,0.35);
 `;
 
 const Table = styled.table`
@@ -511,61 +553,70 @@ const Table = styled.table`
   color: #e0e7ff;
 
   th, td {
-    padding: 12px;
+    padding: 14px;
     border-bottom: 1px solid rgba(99,102,241,0.25);
   }
 
   th {
-    background: rgba(99,102,241,0.15);
-    text-align: left;
+    background: rgba(99,102,241,0.18);
+    font-weight: 800;
+  }
+
+  tbody tr {
+    transition: all 0.25s ease;
+  }
+
+  tbody tr:hover {
+    background: rgba(99,102,241,0.12);
   }
 `;
 
 const DeleteBtn = styled.button`
   background: linear-gradient(90deg,#dc2626,#ef4444);
   border: none;
-  padding: 8px 14px;
-  border-radius: 10px;
+  padding: 9px 16px;
+  border-radius: 12px;
   color: white;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
-`;
-const ToggleBtn = styled.button`
-  background: linear-gradient(90deg,#0f766e,#14b8a6);
-  border: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.25s;
+  transition: all 0.3s ease;
 
   &:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+    transform: scale(1.08);
+    box-shadow: 0 0 18px rgba(239,68,68,0.6);
   }
 `;
+
 const ViewBtn = styled.button`
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: 7px 14px;
+  border-radius: 10px;
   background: linear-gradient(90deg,#2563eb,#3b82f6);
   color: white;
   border: none;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   margin-right: 8px;
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: scale(1.08);
+  }
 `;
 
 const DownloadBtn = styled.button`
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: 7px 14px;
+  border-radius: 10px;
   background: linear-gradient(90deg,#16a34a,#22c55e);
   color: white;
   border: none;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-`;
+  transition: all 0.25s ease;
 
+  &:hover {
+    transform: scale(1.08);
+  }
+`;
 
 
 
