@@ -324,83 +324,77 @@ export default AdminDashboard;
 /* ================= LAYOUT ================= */
 /* ===================== GOVT / PSU GRADE UI ===================== */
 
-const UserRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  margin-bottom: 12px;
-  background: #0f172a;
-  border-radius: 10px;
-  border: 1px solid #1e293b;
-  color: #e5e7eb;
-  transition: background 0.25s ease;
+import styled from "styled-components";
 
-  &:hover {
-    background: #111827;
-  }
-`;
-
-const VerifyBtn = styled.button`
-  padding: 8px 14px;
-  background: #14532d;
-  border: 1px solid #166534;
-  border-radius: 6px;
-  color: #dcfce7;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease;
-
-  &:hover {
-    background: #166534;
-  }
-`;
+/* ===================== ENTERPRISE / FAANG UI ===================== */
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  background: #020617;
+  background: #0b1220;
 `;
 
-const Glow = styled.div`
-  display: none;
-`;
-
+/* ---------- Layout Animation ---------- */
 const Layout = styled.div`
   display: flex;
   min-height: 100vh;
+  animation: pageFade 0.45s ease-out;
+
+  @keyframes pageFade {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;
 
 const Sidebar = styled.div`
   width: 260px;
-  background: #020617;
-  border-right: 1px solid #1e293b;
+  background: #0b1220;
+  border-right: 1px solid #1f2937;
   padding: 1.6rem;
   display: flex;
   flex-direction: column;
 `;
 
-const Logo = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2.2rem;
+const Content = styled.div`
+  flex: 1;
+  padding: 2.8rem;
+  background: #0b1220;
+  animation: contentFade 0.5s ease-out;
+
+  @keyframes contentFade {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;
 
+/* ---------- Navigation ---------- */
 const NavBtn = styled.button`
   width: 100%;
   padding: 12px;
   margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid #1e293b;
-  background: ${({ active }) => (active ? "#1e293b" : "#020617")};
+  border-radius: 8px;
+  border: 1px solid #1f2937;
+  background: ${({ active }) => (active ? "#111827" : "#0b1220")};
   color: #e5e7eb;
   font-weight: 600;
   cursor: pointer;
   text-align: left;
-  transition: background 0.2s ease;
+  transition: all 0.25s ease;
 
   &:hover {
-    background: #1e293b;
+    background: #111827;
+    transform: translateX(3px);
   }
 `;
 
@@ -408,30 +402,39 @@ const LogoutBtn = styled.button`
   margin-top: auto;
   width: 100%;
   padding: 12px;
-  background: #7f1d1d;
-  border: 1px solid #991b1b;
-  border-radius: 6px;
+  background: #3f1d1d;
+  border: 1px solid #7f1d1d;
+  border-radius: 8px;
   color: #fee2e2;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.25s ease;
 
   &:hover {
-    background: #991b1b;
+    background: #7f1d1d;
+    transform: translateY(-1px);
   }
 `;
 
-const Content = styled.div`
-  flex: 1;
-  padding: 2.8rem;
-  background: #020617;
-`;
-
+/* ---------- Card ---------- */
 const Card = styled.div`
   max-width: 900px;
-  background: #020617;
-  border-radius: 10px;
-  border: 1px solid #1e293b;
+  background: #0f172a;
+  border-radius: 12px;
+  border: 1px solid #1f2937;
   padding: 2.4rem;
+  animation: cardEnter 0.45s ease-out;
+
+  @keyframes cardEnter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;
 
 const CardTitle = styled.h3`
@@ -441,14 +444,16 @@ const CardTitle = styled.h3`
   margin-bottom: 1.6rem;
 `;
 
+/* ---------- Inputs ---------- */
 const Input = styled.input`
   width: 100%;
   padding: 12px;
   background: #020617;
   border: 1px solid #334155;
-  border-radius: 6px;
+  border-radius: 8px;
   color: #e5e7eb;
   margin-bottom: 14px;
+  transition: border 0.2s ease;
 
   &:focus {
     outline: none;
@@ -456,26 +461,90 @@ const Input = styled.input`
   }
 `;
 
+/* ---------- Buttons ---------- */
 const PrimaryButton = styled.button`
   width: 100%;
   background: #1e293b;
   padding: 12px;
   border: 1px solid #334155;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 700;
   color: #f1f5f9;
   cursor: pointer;
+  transition: all 0.25s ease;
 
   &:hover {
     background: #334155;
+    transform: translateY(-1px);
+  }
+`;
+
+const VerifyBtn = styled.button`
+  padding: 7px 14px;
+  background: #14532d;
+  border: 1px solid #166534;
+  border-radius: 8px;
+  color: #dcfce7;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: #166534;
+    transform: translateY(-1px);
+  }
+`;
+
+const DeleteBtn = styled.button`
+  background: #3f1d1d;
+  border: 1px solid #7f1d1d;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: #fee2e2;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease;
+
+  &:hover {
+    background: #7f1d1d;
+  }
+`;
+
+/* ---------- Rows / Tables ---------- */
+const UserRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background: #0f172a;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+  color: #e5e7eb;
+  animation: rowFade 0.35s ease-out;
+
+  @keyframes rowFade {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &:hover {
+    background: #111827;
   }
 `;
 
 const TableWrapper = styled.div`
   max-height: 380px;
   overflow-y: auto;
-  border-radius: 6px;
-  border: 1px solid #1e293b;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
 `;
 
 const Table = styled.table`
@@ -485,56 +554,48 @@ const Table = styled.table`
 
   th, td {
     padding: 12px;
-    border-bottom: 1px solid #1e293b;
+    border-bottom: 1px solid #1f2937;
   }
 
   th {
-    background: #020617;
+    background: #0f172a;
     font-weight: 700;
   }
 
-  tbody tr:hover {
-    background: #020617;
+  tbody tr {
+    transition: background 0.2s ease;
   }
-`;
 
-const DeleteBtn = styled.button`
-  background: #7f1d1d;
-  border: 1px solid #991b1b;
-  padding: 6px 12px;
-  border-radius: 6px;
-  color: #fee2e2;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    background: #991b1b;
+  tbody tr:hover {
+    background: #111827;
   }
 `;
 
 const ViewBtn = styled.button`
   padding: 6px 12px;
-  border-radius: 6px;
-  background: #1e40af;
-  border: 1px solid #1e3a8a;
+  border-radius: 8px;
+  background: #1e3a8a;
+  border: 1px solid #1e40af;
   color: #dbeafe;
   font-weight: 600;
   cursor: pointer;
   margin-right: 8px;
+  transition: all 0.25s ease;
 
   &:hover {
-    background: #1e3a8a;
+    background: #1e40af;
   }
 `;
 
 const DownloadBtn = styled.button`
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #064e3b;
   border: 1px solid #065f46;
   color: #d1fae5;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.25s ease;
 
   &:hover {
     background: #065f46;
