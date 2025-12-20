@@ -322,27 +322,53 @@ export default AdminDashboard;
 /* ===================== STYLES ===================== */
 /* ===================== ADVANCED FAANG STYLE ===================== */
 /* ================= LAYOUT ================= */
+/* ===================== GOVT / PSU GRADE UI ===================== */
+
+const UserRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: #0f172a;
+  border-radius: 10px;
+  border: 1px solid #1e293b;
+  color: #e5e7eb;
+  transition: background 0.25s ease;
+
+  &:hover {
+    background: #111827;
+  }
+`;
+
+const VerifyBtn = styled.button`
+  padding: 8px 14px;
+  background: #14532d;
+  border: 1px solid #166534;
+  border-radius: 6px;
+  color: #dcfce7;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #166534;
+  }
+`;
 
 const Wrapper = styled.div`
   min-height: 100vh;
   background: #020617;
 `;
 
+const Glow = styled.div`
+  display: none;
+`;
+
 const Layout = styled.div`
   display: flex;
   min-height: 100vh;
-  animation: pageEnter 0.4s ease-out;
-
-  @keyframes pageEnter {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 `;
 
 const Sidebar = styled.div`
@@ -354,24 +380,11 @@ const Sidebar = styled.div`
   flex-direction: column;
 `;
 
-const Content = styled.div`
-  flex: 1;
-  padding: 2.8rem;
-  animation: contentFade 0.45s ease-out;
-
-  @keyframes contentFade {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+const Logo = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.2rem;
 `;
-
-/* ================= NAV ================= */
 
 const NavBtn = styled.button`
   width: 100%;
@@ -384,11 +397,10 @@ const NavBtn = styled.button`
   font-weight: 600;
   cursor: pointer;
   text-align: left;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition: background 0.2s ease;
 
   &:hover {
     background: #1e293b;
-    transform: translateX(4px);
   }
 `;
 
@@ -402,15 +414,17 @@ const LogoutBtn = styled.button`
   color: #fee2e2;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.25s ease, transform 0.25s ease;
 
   &:hover {
     background: #991b1b;
-    transform: translateY(-1px);
   }
 `;
 
-/* ================= CARD ================= */
+const Content = styled.div`
+  flex: 1;
+  padding: 2.8rem;
+  background: #020617;
+`;
 
 const Card = styled.div`
   max-width: 900px;
@@ -418,18 +432,6 @@ const Card = styled.div`
   border-radius: 10px;
   border: 1px solid #1e293b;
   padding: 2.4rem;
-  animation: cardFade 0.4s ease-out;
-
-  @keyframes cardFade {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 `;
 
 const CardTitle = styled.h3`
@@ -439,8 +441,6 @@ const CardTitle = styled.h3`
   margin-bottom: 1.6rem;
 `;
 
-/* ================= INPUT ================= */
-
 const Input = styled.input`
   width: 100%;
   padding: 12px;
@@ -449,15 +449,12 @@ const Input = styled.input`
   border-radius: 6px;
   color: #e5e7eb;
   margin-bottom: 14px;
-  transition: border 0.2s ease;
 
   &:focus {
     outline: none;
     border-color: #64748b;
   }
 `;
-
-/* ================= BUTTONS ================= */
 
 const PrimaryButton = styled.button`
   width: 100%;
@@ -468,28 +465,36 @@ const PrimaryButton = styled.button`
   font-weight: 700;
   color: #f1f5f9;
   cursor: pointer;
-  transition: background 0.25s ease, transform 0.2s ease;
 
   &:hover {
     background: #334155;
-    transform: translateY(-1px);
   }
 `;
 
-const VerifyBtn = styled.button`
-  padding: 7px 14px;
-  background: #14532d;
-  border: 1px solid #166534;
+const TableWrapper = styled.div`
+  max-height: 380px;
+  overflow-y: auto;
   border-radius: 6px;
-  color: #dcfce7;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.25s ease, transform 0.2s ease;
+  border: 1px solid #1e293b;
+`;
 
-  &:hover {
-    background: #166534;
-    transform: translateY(-1px);
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  color: #e5e7eb;
+
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid #1e293b;
+  }
+
+  th {
+    background: #020617;
+    font-weight: 700;
+  }
+
+  tbody tr:hover {
+    background: #020617;
   }
 `;
 
@@ -501,35 +506,37 @@ const DeleteBtn = styled.button`
   color: #fee2e2;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.25s ease;
 
   &:hover {
     background: #991b1b;
   }
 `;
 
-/* ================= ROW / TABLE ================= */
+const ViewBtn = styled.button`
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: #1e40af;
+  border: 1px solid #1e3a8a;
+  color: #dbeafe;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 8px;
 
-const UserRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  margin-bottom: 10px;
-  background: #0f172a;
-  border-radius: 8px;
-  border: 1px solid #1e293b;
-  color: #e5e7eb;
-  animation: rowFade 0.35s ease-out;
+  &:hover {
+    background: #1e3a8a;
+  }
+`;
 
-  @keyframes rowFade {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+const DownloadBtn = styled.button`
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: #064e3b;
+  border: 1px solid #065f46;
+  color: #d1fae5;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: #065f46;
   }
 `;
