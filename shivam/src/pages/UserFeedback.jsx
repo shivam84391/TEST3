@@ -47,7 +47,11 @@ const UserFeedback = () => {
     telecallerName: "",
   });
 
-  // 🔐 load user
+  /* ================= DISABLE COPY / PASTE ================= */
+  const disableCopyPaste = (e) => e.preventDefault();
+  const disableDrop = (e) => e.preventDefault();
+
+  /* ================= LOAD USER ================= */
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
@@ -62,6 +66,21 @@ const UserFeedback = () => {
       );
     }
   }, [navigate]);
+
+  /* ================= FETCH DEMATS ================= */
+  useEffect(() => {
+    const fetchDemats = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/users/all-demats`
+        );
+        setDemats(res.data.data);
+      } catch {
+        toast.error("Failed to load demat accounts");
+      }
+    };
+    fetchDemats();
+  }, []);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -91,24 +110,16 @@ const UserFeedback = () => {
     localStorage.clear();
     navigate("/login");
   };
-  useEffect(() => {
-  const fetchDemats = async () => {
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/users/all-demats`
-      );
-      setDemats(res.data.data);
-    } catch {
-      toast.error("Failed to load demat accounts");
-    }
-  };
-
-  fetchDemats();
-}, []);
 
   return (
     <Wrapper>
-      <Form onSubmit={submitHandler}>
+      <Form
+        onSubmit={submitHandler}
+        onPaste={disableCopyPaste}
+        onCopy={disableCopyPaste}
+        onCut={disableCopyPaste}
+        onDrop={disableDrop}
+      >
         <Header>
           <h2>
             Welcome <br />
@@ -128,14 +139,13 @@ const UserFeedback = () => {
           <option>Critical Issue</option>
           <option>Appreciation / Positive Feedback</option>
         </Select>
+
         <Select name="dematAccount" onChange={handleChange}>
-  <option value="">Select Demat Platform</option>
-  {demats.map((d) => (
-    <option key={d._id} value={d._id}>
-      {d.name}
-    </option>
-  ))}
-</Select>
+          <option value="">Select Demat Platform</option>
+          {demats.map((d) => (
+            <option key={d._id} value={d._id}>{d.name}</option>
+          ))}
+        </Select>
 
         <Select name="feedbackTone" onChange={handleChange}>
           <option value="">Nature of Feedback</option>
@@ -154,7 +164,6 @@ const UserFeedback = () => {
         <Section>Personal Information</Section>
         <Input name="customerName" placeholder="Customer Full Name" onChange={handleChange} />
         <Input name="contactNumber" placeholder="Contact Number" onChange={handleChange} />
-
         <Select name="gender" onChange={handleChange}>
           <option value="">Select Gender</option>
           <option>Male</option>
@@ -177,40 +186,7 @@ const UserFeedback = () => {
           <option>Authorized Agent</option>
         </Select>
 
-        <Rating>
-          <label>Ease of account opening</label>
-          {[1,2,3,4,5].map((n) => (
-            <button
-              type="button"
-              key={n}
-              className={formData.easeRating === n ? "selected" : ""}
-              onClick={() =>
-                setFormData((prev) => ({ ...prev, easeRating: n }))
-              }
-            >
-              {n}
-            </button>
-          ))}
-        </Rating>
-
         <Textarea name="guidance" placeholder="Guidance during process" onChange={handleChange} />
-
-        <Rating>
-          <label>Activation time</label>
-          {[1,2,3,4,5].map((n) => (
-            <button
-              type="button"
-              key={n}
-              className={formData.activationRating === n ? "selected" : ""}
-              onClick={() =>
-                setFormData((prev) => ({ ...prev, activationRating: n }))
-              }
-            >
-              {n}
-            </button>
-          ))}
-        </Rating>
-
         <Textarea name="documents" placeholder="Documents & smoothness" onChange={handleChange} />
 
         <Section>Customer Support</Section>
@@ -219,22 +195,6 @@ const UserFeedback = () => {
           <option>Yes</option>
           <option>No</option>
         </Select>
-
-        <Rating>
-          <label>Support experience</label>
-          {[1,2,3,4,5].map((n) => (
-            <button
-              type="button"
-              key={n}
-              className={formData.supportRating === n ? "selected" : ""}
-              onClick={() =>
-                setFormData((prev) => ({ ...prev, supportRating: n }))
-              }
-            >
-              {n}
-            </button>
-          ))}
-        </Rating>
 
         <Section>Features & Recommendations</Section>
         <Textarea name="improvements" placeholder="Suggested improvements" onChange={handleChange} />
@@ -246,22 +206,6 @@ const UserFeedback = () => {
           <option>No</option>
         </Select>
 
-        <Rating>
-          <label>Overall rating</label>
-          {[1,2,3,4,5].map((n) => (
-            <button
-              type="button"
-              key={n}
-              className={formData.overallRating === n ? "selected" : ""}
-              onClick={() =>
-                setFormData((prev) => ({ ...prev, overallRating: n }))
-              }
-            >
-              {n}
-            </button>
-          ))}
-        </Rating>
-
         <Section>Consent & Follow-Up</Section>
         <Select name="consent" onChange={handleChange}>
           <option value="">Consent for follow-up</option>
@@ -269,27 +213,15 @@ const UserFeedback = () => {
           <option>No</option>
         </Select>
 
-        <Select name="contactMethod" onChange={handleChange}>
-          <option value="">Preferred contact method</option>
-          <option>Call</option>
-          <option>Email</option>
-          <option>WhatsApp</option>
-        </Select>
-
-        <Select name="bestTime" onChange={handleChange}>
-          <option value="">Best time to contact</option>
-          <option>Morning</option>
-          <option>Afternoon</option>
-          <option>Evening</option>
-        </Select>
-
         <Section>Telecaller Information</Section>
         <Input name="telecallerName" placeholder="Telecaller Name" onChange={handleChange} />
 
         <Submit>Submit Feedback</Submit>
+
         <ActionButton type="button" onClick={() => navigate("/view-feedback")}>
           View Feedback
         </ActionButton>
+
         <LogoutButton type="button" onClick={logoutHandler}>
           Logout
         </LogoutButton>
@@ -299,8 +231,6 @@ const UserFeedback = () => {
 };
 
 export default UserFeedback;
-
-
 
 /* ===================== STYLES ===================== */
 
@@ -325,20 +255,9 @@ const Header = styled.div`
   text-align: center;
   margin-bottom: 2.6rem;
 
-  h2 {
-    font-size: 30px;
-    font-weight: 800;
-  }
-
-  span {
-    color: #2563eb;
-  }
-
-  p {
-    margin-top: 6px;
-    font-size: 14px;
-    color: #475569;
-  }
+  h2 { font-size: 30px; font-weight: 800; }
+  span { color: #2563eb; }
+  p { margin-top: 6px; font-size: 14px; color: #475569; }
 `;
 
 const Section = styled.div`
@@ -375,35 +294,6 @@ const Textarea = styled.textarea`
   margin-bottom: 12px;
 `;
 
-const Rating = styled.div`
-  margin-bottom: 14px;
-
-  label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-
-  button {
-    background: #e5e7eb;
-    border: 1px solid #c7d2fe;
-    padding: 6px 14px;
-    margin-right: 6px;
-    border-radius: 999px;
-    cursor: pointer;
-
-    &:hover {
-      background: #2563eb;
-      color: white;
-    }
-  }
-  button.selected {
-    background: #2563eb;
-    color: white;
-    box-shadow: 0 8px 18px rgba(37,99,235,0.18);
-  }
-`;
-
 const Submit = styled.button`
   width: 100%;
   background: linear-gradient(90deg, #1e3a8a, #2563eb);
@@ -413,20 +303,7 @@ const Submit = styled.button`
   border-radius: 14px;
   font-weight: 800;
   margin-top: 1.5rem;
-  cursor: pointer;
-  transition: all 0.35s ease;
-
-  &:hover {
-    transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 18px 35px rgba(37, 99, 235, 0.45);
-    background: linear-gradient(90deg, #2563eb, #1d4ed8);
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
 `;
-
 
 const ActionButton = styled.button`
   width: 100%;
@@ -437,20 +314,7 @@ const ActionButton = styled.button`
   border-radius: 14px;
   margin-top: 0.9rem;
   font-weight: 700;
-  cursor: pointer;
-  transition: all 0.35s ease;
-
-  &:hover {
-    transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 16px 30px rgba(20, 184, 166, 0.45);
-    background: linear-gradient(90deg, #14b8a6, #0d9488);
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
 `;
-
 
 const LogoutButton = styled.button`
   width: 100%;
@@ -461,16 +325,4 @@ const LogoutButton = styled.button`
   border-radius: 14px;
   margin-top: 0.8rem;
   font-weight: 700;
-  cursor: pointer;
-  transition: all 0.35s ease;
-
-  &:hover {
-    transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 16px 32px rgba(220, 38, 38, 0.45);
-    background: linear-gradient(90deg, #dc2626, #b91c1c);
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
 `;
